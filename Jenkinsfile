@@ -68,7 +68,7 @@ pipeline
             steps
             {
                 sh 'ssh root@${JENKINS_SERVER_IP} "sudo rm -rf /var/www/html/*"'
-                sh 'scp -r dist/* root@${JENKINS_SERVER_IP}:/var/www/html/'
+                sh 'scp -r build/* root@${JENKINS_SERVER_IP}:/var/www/html/'
                 sh 'ssh root@${JENKINS_SERVER_IP} "sudo systemctl restart nginx"'
                 echo "Access it via: http://${JENKINS_SERVER_IP}/"
             }
