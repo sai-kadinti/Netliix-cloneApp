@@ -77,7 +77,7 @@ pipeline
         {
             steps
             {
-                sh "docker build -t kadintisai/${JOB_NAME}:${BUILD_NUMBER} ."
+                sh "docker build -t ${DOCKERHUB_USER}/${JOB_NAME}:${BUILD_NUMBER} ."
             }
         }
         stage ("Docker login")
@@ -93,14 +93,14 @@ pipeline
         {
             steps 
             {
-                sh "docker push kadintisai/${JOB_NAME}:${BUILD_NUMBER}"
+                sh "docker push ${DOCKERHUB_USER}/${JOB_NAME}:${BUILD_NUMBER}"
             }
         }
         stage ("Run the container")
         {
             steps
             {
-                sh 'docker run --name ${JOB_NAME}_${BUILD_NUMBER} -p ${HOST_PORT}:80 -d kadintisai/netflix:${BUILD_NUMBER}'
+                sh 'docker run --name ${JOB_NAME}_${BUILD_NUMBER} -p ${HOST_PORT}:80 -d ${DOCKERHUB_USER}/${JOB_NAME}:${BUILD_NUMBER}'
             }
         }
         stage ('Access the service')
