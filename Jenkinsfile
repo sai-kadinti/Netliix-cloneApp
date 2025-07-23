@@ -12,7 +12,7 @@ pipeline
         SONARQUBE_TOKEN = "squ_ccb0d1ce68936479547512162c5d5f24ca606bea"
         DOCKERHUB_USER = 'kadintisai'
         DOCKERHUB_PASS = credentials('docker_pwd')
-        HOST_PORT = '9999'
+        HOST_PORT = '8888'
         SKIP_STAGE = 'true'
     }
 
@@ -77,7 +77,7 @@ pipeline
         {
             steps
             {
-                sh "docker build -t kadintisai/netflix:${BUILD_NUMBER} ."
+                sh "docker build -t kadintisai/${JOB_NAME}:${BUILD_NUMBER} ."
             }
         }
         stage ("Docker login")
@@ -93,14 +93,14 @@ pipeline
         {
             steps 
             {
-                sh "docker push kadintisai/netflix:${BUILD_NUMBER}"
+                sh "docker push kadintisai/${JOB_NAME}:${BUILD_NUMBER}"
             }
         }
         stage ("Run the container")
         {
             steps
             {
-                sh 'docker run --name netflix_${BUILD_NUMBER} -p ${HOST_PORT}:80 -d kadintisai/netflix:${BUILD_NUMBER}'
+                sh 'docker run --name ${JOB_NAME}_${BUILD_NUMBER} -p ${HOST_PORT}:80 -d kadintisai/netflix:${BUILD_NUMBER}'
             }
         }
         stage ('Access the service')
